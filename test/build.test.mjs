@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { LANGS, strings } from "../src/i18n.mjs";
-import { render, sitemap, appUrl, OUTPUTS } from "../build.mjs";
+import { render, sitemap, appUrl, assetVersion, OUTPUTS } from "../build.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const CODES = Object.keys(LANGS);
@@ -89,6 +89,15 @@ for (const code of CODES) {
     assert.doesNotMatch(text, en);
   });
 }
+
+test("stylesheet and script links change whenever the files change", () => {
+  const html = render("en");
+  for (const path of ["/assets/css/main.css", "/assets/js/main.js"]) {
+    const v = html.match(new RegExp(`"${path.replace(/[./]/g, "\\$&")}\\?v=([0-9a-f]{10})"`));
+    assert.ok(v, `${path} is not versioned`);
+    assert.equal(v[1], assetVersion(path));
+  }
+});
 
 test("appUrl adds redirect only for sign-in pages", () => {
   assert.equal(appUrl("/play", "he"), "https://www.betsfans-poker.app/play?lang=he");

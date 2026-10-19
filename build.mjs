@@ -5,6 +5,7 @@
 import { readFileSync, writeFileSync, mkdirSync, cpSync, rmSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { createHash } from "node:crypto";
 import { LANGS, strings } from "./src/i18n.mjs";
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
@@ -147,6 +148,15 @@ function runtimeStrings(code) {
   return JSON.stringify(data).replace(/</g, "\\u003c");
 }
 
+/**
+ * Content hash for a stylesheet or script, appended as ?v=… . The pages are always
+ * revalidated, so a changed file gets a new URL at once instead of waiting out the
+ * browser's cached copy (assets are cached for a day — see vercel.json).
+ */
+export function assetVersion(path) {
+  return createHash("sha256").update(readFileSync(join(ROOT, path))).digest("hex").slice(0, 10);
+}
+
 export function render(code) {
   const L = LANGS[code];
   let html = readFileSync(join(ROOT, "src/page.html"), "utf8");
@@ -174,6 +184,7 @@ export function render(code) {
     chTitle: t("chTitle", code).replace("{count}", `<span class="count" data-count="10000">${t("ch1b", code)}</span>`),
   };
 
+  html = html.replace(/"(\/assets\/(?:css|js)\/[\w.-]+)"/g, (_, path) => `"${path}?v=${assetVersion(path)}"`);
   html = html.replace(/\{\{app:([^}]+)\}\}/g, (_, path) => esc(appUrl(path, code)));
   html = html.replace(/\{\{(\w+)\}\}/g, (_, key) => {
     if (key in special) return special[key];

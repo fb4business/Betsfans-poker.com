@@ -52,7 +52,9 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" />
   <link rel="preload" as="image" href="/assets/img/galaxy.webp" imagesrcset="/assets/img/galaxy-960.webp 960w, /assets/img/galaxy.webp 1672w" imagesizes="100vw" fetchpriority="high" />
   <link rel="stylesheet" href="/assets/css/main.css" />
-  <script>document.documentElement.classList.add("js");</script>
+  <!-- "js": scripts run. "motion": they run and the reader allows motion — only then do the
+       pinned, scroll-driven scenes switch on (main.css); otherwise every section is static. -->
+  <script>(function (c) { c.add("js"); if (!matchMedia("(prefers-reduced-motion: reduce)").matches) c.add("motion"); })(document.documentElement.classList);</script>
 
   <!-- Structured data -->
   <script type="application/ld+json">
@@ -454,15 +456,40 @@
         </div>
       </div>
 
-      <!-- Readable copy for search engines and screen readers (the card above is the visual version). -->
-      <div class="sr-only">
+      <!-- Every station at once: the static layout shows it; with motion it stays for search engines and screen readers. -->
+      <div class="wrap voyage-list">
         <h3>Cinq destinations dans The Final Frontier</h3>
         <ol>
-          <li>Station Rustbelt — Le Saloon du Circuit Rouillé. Lumières chaudes, cuivre patiné et une place pour chaque nouvel arrivant. Commencez aux plus petits buy-ins. Débloqué dès le départ.</li>
-          <li>Orbite Néon — Le Saloon des Étoiles. Un comptoir lumineux, de nouvelles tables et des buy-ins plus élevés derrière le sas. 100 XP pour débloquer.</li>
-          <li>Frontière des Astéroïdes — Le Repaire des Hors-la-loi. Un avant-poste au cœur des astéroïdes. Apportez vos jetons et votre audace. 300 XP pour débloquer.</li>
-          <li>Espace Profond — Le Vide Violet. Au-delà des étoiles familières, le prochain palier de buy-in vous attend. 700 XP pour débloquer.</li>
-          <li>Le Noyau — La Couronne des Étoiles. La grande arène galactique. Gagnez votre passage vers les plus hauts buy-ins. 1 400 XP pour débloquer.</li>
+          <li>
+            <p class="kicker">Secteur 01 · Débloqué dès le départ</p>
+            <h4>Station Rustbelt</h4>
+            <p class="saloon">Le Saloon du Circuit Rouillé</p>
+            <p>Lumières chaudes, cuivre patiné et une place pour chaque nouvel arrivant. Commencez aux plus petits buy-ins. <span class="sr-only">Débloqué dès le départ.</span></p>
+          </li>
+          <li>
+            <p class="kicker">Secteur 02 · 100 XP</p>
+            <h4>Orbite Néon</h4>
+            <p class="saloon">Le Saloon des Étoiles</p>
+            <p>Un comptoir lumineux, de nouvelles tables et des buy-ins plus élevés derrière le sas. <span class="sr-only">100 XP pour débloquer.</span></p>
+          </li>
+          <li>
+            <p class="kicker">Secteur 03 · 300 XP</p>
+            <h4>Frontière des Astéroïdes</h4>
+            <p class="saloon">Le Repaire des Hors-la-loi</p>
+            <p>Un avant-poste au cœur des astéroïdes. Apportez vos jetons et votre audace. <span class="sr-only">300 XP pour débloquer.</span></p>
+          </li>
+          <li>
+            <p class="kicker">Secteur 04 · 700 XP</p>
+            <h4>Espace Profond</h4>
+            <p class="saloon">Le Vide Violet</p>
+            <p>Au-delà des étoiles familières, le prochain palier de buy-in vous attend. <span class="sr-only">700 XP pour débloquer.</span></p>
+          </li>
+          <li>
+            <p class="kicker">Secteur 05 · 1 400 XP</p>
+            <h4>Le Noyau</h4>
+            <p class="saloon">La Couronne des Étoiles</p>
+            <p>La grande arène galactique. Gagnez votre passage vers les plus hauts buy-ins. <span class="sr-only">1 400 XP pour débloquer.</span></p>
+          </li>
         </ol>
       </div>
     </section>

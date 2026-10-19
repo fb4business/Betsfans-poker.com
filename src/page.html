@@ -48,7 +48,9 @@
   <link rel="stylesheet" href="{{fontsHref}}" />
   <link rel="preload" as="image" href="/assets/img/galaxy.webp" imagesrcset="/assets/img/galaxy-960.webp 960w, /assets/img/galaxy.webp 1672w" imagesizes="100vw" fetchpriority="high" />
   <link rel="stylesheet" href="/assets/css/main.css" />
-  <script>document.documentElement.classList.add("js");</script>
+  <!-- "js": scripts run. "motion": they run and the reader allows motion — only then do the
+       pinned, scroll-driven scenes switch on (main.css); otherwise every section is static. -->
+  <script>(function (c) { c.add("js"); if (!matchMedia("(prefers-reduced-motion: reduce)").matches) c.add("motion"); })(document.documentElement.classList);</script>
 
   <!-- Structured data -->
   <script type="application/ld+json">
@@ -181,8 +183,8 @@
         </div>
       </div>
 
-      <!-- Readable copy for search engines and screen readers (the card above is the visual version). -->
-      <div class="sr-only">
+      <!-- Every station at once: the static layout shows it; with motion it stays for search engines and screen readers. -->
+      <div class="wrap voyage-list">
         <h3>{{srTitle}}</h3>
         <ol>
 {{srList}}

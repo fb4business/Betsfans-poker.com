@@ -52,7 +52,9 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" />
   <link rel="preload" as="image" href="/assets/img/galaxy.webp" imagesrcset="/assets/img/galaxy-960.webp 960w, /assets/img/galaxy.webp 1672w" imagesizes="100vw" fetchpriority="high" />
   <link rel="stylesheet" href="/assets/css/main.css" />
-  <script>document.documentElement.classList.add("js");</script>
+  <!-- "js": scripts run. "motion": they run and the reader allows motion — only then do the
+       pinned, scroll-driven scenes switch on (main.css); otherwise every section is static. -->
+  <script>(function (c) { c.add("js"); if (!matchMedia("(prefers-reduced-motion: reduce)").matches) c.add("motion"); })(document.documentElement.classList);</script>
 
   <!-- Structured data -->
   <script type="application/ld+json">
@@ -454,15 +456,40 @@
         </div>
       </div>
 
-      <!-- Readable copy for search engines and screen readers (the card above is the visual version). -->
-      <div class="sr-only">
+      <!-- Every station at once: the static layout shows it; with motion it stays for search engines and screen readers. -->
+      <div class="wrap voyage-list">
         <h3>Five destinations in The Final Frontier</h3>
         <ol>
-          <li>Rustbelt Station — The Rusty Circuit Saloon. Warm lights, worn copper, and a seat for every newcomer. Start your journey at the frontier's smallest buy-ins. Starts unlocked.</li>
-          <li>Neon Orbit — The Starlight Saloon. A neon trading hub with new tables and bigger buy-ins waiting beyond the airlock. 100 XP to unlock.</li>
-          <li>Asteroid Frontier — The Outlaw Outpost. A rugged outpost in the asteroid belt. Bring your chips and your nerve. 300 XP to unlock.</li>
-          <li>Deep Space — The Violet Void. Beyond the familiar stars, the next rung of the buy-in ladder awaits. 700 XP to unlock.</li>
-          <li>The Core — The Crown of Stars. The galaxy's grand arena. Earn your passage to the highest buy-ins. 1,400 XP to unlock.</li>
+          <li>
+            <p class="kicker">Sector 01 · Starts unlocked</p>
+            <h4>Rustbelt Station</h4>
+            <p class="saloon">The Rusty Circuit Saloon</p>
+            <p>Warm lights, worn copper, and a seat for every newcomer. Start your journey at the frontier's smallest buy-ins. <span class="sr-only">Starts unlocked.</span></p>
+          </li>
+          <li>
+            <p class="kicker">Sector 02 · 100 XP</p>
+            <h4>Neon Orbit</h4>
+            <p class="saloon">The Starlight Saloon</p>
+            <p>A neon trading hub with new tables and bigger buy-ins waiting beyond the airlock. <span class="sr-only">100 XP to unlock.</span></p>
+          </li>
+          <li>
+            <p class="kicker">Sector 03 · 300 XP</p>
+            <h4>Asteroid Frontier</h4>
+            <p class="saloon">The Outlaw Outpost</p>
+            <p>A rugged outpost in the asteroid belt. Bring your chips and your nerve. <span class="sr-only">300 XP to unlock.</span></p>
+          </li>
+          <li>
+            <p class="kicker">Sector 04 · 700 XP</p>
+            <h4>Deep Space</h4>
+            <p class="saloon">The Violet Void</p>
+            <p>Beyond the familiar stars, the next rung of the buy-in ladder awaits. <span class="sr-only">700 XP to unlock.</span></p>
+          </li>
+          <li>
+            <p class="kicker">Sector 05 · 1,400 XP</p>
+            <h4>The Core</h4>
+            <p class="saloon">The Crown of Stars</p>
+            <p>The galaxy's grand arena. Earn your passage to the highest buy-ins. <span class="sr-only">1,400 XP to unlock.</span></p>
+          </li>
         </ol>
       </div>
     </section>

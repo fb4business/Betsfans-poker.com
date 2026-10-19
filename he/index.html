@@ -52,7 +52,9 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Heebo:wght@400;500;700;800&display=swap" />
   <link rel="preload" as="image" href="/assets/img/galaxy.webp" imagesrcset="/assets/img/galaxy-960.webp 960w, /assets/img/galaxy.webp 1672w" imagesizes="100vw" fetchpriority="high" />
   <link rel="stylesheet" href="/assets/css/main.css" />
-  <script>document.documentElement.classList.add("js");</script>
+  <!-- "js": scripts run. "motion": they run and the reader allows motion — only then do the
+       pinned, scroll-driven scenes switch on (main.css); otherwise every section is static. -->
+  <script>(function (c) { c.add("js"); if (!matchMedia("(prefers-reduced-motion: reduce)").matches) c.add("motion"); })(document.documentElement.classList);</script>
 
   <!-- Structured data -->
   <script type="application/ld+json">
@@ -454,15 +456,40 @@
         </div>
       </div>
 
-      <!-- Readable copy for search engines and screen readers (the card above is the visual version). -->
-      <div class="sr-only">
+      <!-- Every station at once: the static layout shows it; with motion it stays for search engines and screen readers. -->
+      <div class="wrap voyage-list">
         <h3>חמישה יעדים בגבול האחרון</h3>
         <ol>
-          <li>תחנת ראסטבלט — סלון המעגל החלוד. אורות חמים, נחושת שחוקה ומקום לכל מצטרף. התחילו במסלול עם דמי הכניסה הנמוכים ביותר. פתוחה מההתחלה.</li>
-          <li>מסלול הניאון — סלון אור הכוכבים. מרכז מסחר זוהר עם שולחנות חדשים ודמי כניסה גבוהים יותר מעבר למנעל האוויר. 100 XP לפתיחה.</li>
-          <li>גבול האסטרואידים — מוצב פורעי החוק. מוצב מחוספס בחגורת האסטרואידים. הביאו את הצ'יפים ואת האומץ. 300 XP לפתיחה.</li>
-          <li>החלל העמוק — הריק הסגול. מעבר לכוכבים המוכרים מחכה השלב הבא בסולם דמי הכניסה. 700 XP לפתיחה.</li>
-          <li>הליבה — כתר הכוכבים. הזירה הגדולה של הגלקסיה. הרוויחו את הדרך לדמי הכניסה הגבוהים ביותר. 1,400 XP לפתיחה.</li>
+          <li>
+            <p class="kicker">גזרה 01 · פתוחה מההתחלה</p>
+            <h4>תחנת ראסטבלט</h4>
+            <p class="saloon">סלון המעגל החלוד</p>
+            <p>אורות חמים, נחושת שחוקה ומקום לכל מצטרף. התחילו במסלול עם דמי הכניסה הנמוכים ביותר. <span class="sr-only">פתוחה מההתחלה.</span></p>
+          </li>
+          <li>
+            <p class="kicker">גזרה 02 · 100 XP</p>
+            <h4>מסלול הניאון</h4>
+            <p class="saloon">סלון אור הכוכבים</p>
+            <p>מרכז מסחר זוהר עם שולחנות חדשים ודמי כניסה גבוהים יותר מעבר למנעל האוויר. <span class="sr-only">100 XP לפתיחה.</span></p>
+          </li>
+          <li>
+            <p class="kicker">גזרה 03 · 300 XP</p>
+            <h4>גבול האסטרואידים</h4>
+            <p class="saloon">מוצב פורעי החוק</p>
+            <p>מוצב מחוספס בחגורת האסטרואידים. הביאו את הצ'יפים ואת האומץ. <span class="sr-only">300 XP לפתיחה.</span></p>
+          </li>
+          <li>
+            <p class="kicker">גזרה 04 · 700 XP</p>
+            <h4>החלל העמוק</h4>
+            <p class="saloon">הריק הסגול</p>
+            <p>מעבר לכוכבים המוכרים מחכה השלב הבא בסולם דמי הכניסה. <span class="sr-only">700 XP לפתיחה.</span></p>
+          </li>
+          <li>
+            <p class="kicker">גזרה 05 · 1,400 XP</p>
+            <h4>הליבה</h4>
+            <p class="saloon">כתר הכוכבים</p>
+            <p>הזירה הגדולה של הגלקסיה. הרוויחו את הדרך לדמי הכניסה הגבוהים ביותר. <span class="sr-only">1,400 XP לפתיחה.</span></p>
+          </li>
         </ol>
       </div>
     </section>

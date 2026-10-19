@@ -39,7 +39,7 @@ npm run serve    # http://localhost:8765  (/he/ and /fr/ for the other languages
 - One `h1`, semantic sections, alt text on every image, `robots.txt`, a `sitemap.xml` with hreflang alternates and image entries, `site.webmanifest`.
 
 ## Accessibility & motion
-- Motion follows `prefers-reduced-motion`. All content is in the HTML, so the page is readable without JavaScript.
+- The cinematic scenes (pinned hero, camera-follow Final Frontier map, sideways gallery, looping carousels) switch on only when JavaScript runs **and** the reader hasn't asked for reduced motion (the `motion` class set in `<head>`). Otherwise every section is static: the whole map with all five stations as cards, a swipeable gallery and swipeable carousels. All content is in the HTML, so the page reads fine without JavaScript. `test/motion.test.mjs` guards this.
 - Checked in all three languages at 375×667, 390×844, 844×390 (landscape) and 1280×800: no horizontal scroll, and tap targets are at least 44px. Hebrew uses Heebo for its letters and mirrors the layout; the spaceship flies right to left.
 
 ## Deploying

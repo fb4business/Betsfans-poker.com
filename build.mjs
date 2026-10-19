@@ -124,7 +124,14 @@ function langFooter(code) {
 function srList(code) {
   return STATIONS.map((i) => {
     const unlock = i === 1 ? t("unlocked", code) : t("xpToUnlock", code).replace("{n}", XP[i - 1].toLocaleString(code === "fr" ? "fr-FR" : "en-US"));
-    return `          <li>${t(`st${i}`, code)} — ${t(`sal${i}`, code)}. ${t(`desc${i}`, code)} ${unlock}.</li>`;
+    return [
+      `          <li>`,
+      `            <p class="kicker">${t(`kicker${i}`, code)}</p>`,
+      `            <h4>${t(`st${i}`, code)}</h4>`,
+      `            <p class="saloon">${t(`sal${i}`, code)}</p>`,
+      `            <p>${t(`desc${i}`, code)} <span class="sr-only">${unlock}.</span></p>`,
+      `          </li>`,
+    ].join("\n");
   }).join("\n");
 }
 

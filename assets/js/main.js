@@ -83,13 +83,19 @@
   $$("[data-year]").forEach((el) => (el.textContent = String(new Date().getFullYear())));
 
   /* ---------- Marquees: a second, hidden copy makes the loop seamless ---------- */
-  $$("[data-marquee]").forEach((track) => {
-    [...track.children].forEach((li) => {
-      const copy = li.cloneNode(true);
-      copy.setAttribute("aria-hidden", "true");
-      track.appendChild(copy);
+  // The loop animates to -50%, so it only starts once the row is doubled; without it
+  // (no JavaScript, or reduced motion) each row is a plain horizontal scroller.
+  if (!reduced) {
+    $$("[data-marquee]").forEach((track) => {
+      [...track.children].forEach((li) => {
+        const copy = li.cloneNode(true);
+        copy.setAttribute("aria-hidden", "true");
+        track.appendChild(copy);
+      });
+      track.classList.add("looping");
+      track.parentElement.classList.add("looping");
     });
-  });
+  }
 
   /* ---------- Reveal on scroll ---------- */
   const io = new IntersectionObserver(
@@ -213,6 +219,7 @@
       V.cum.push(tmp.getTotalLength());
     }
     V.route.style.strokeDasharray = `${V.total} ${V.total}`;
+    V.shipScale = 0.6;
   }
 
   const setStation = (i) => {
@@ -267,6 +274,17 @@
     V.dots.forEach((li, i) => li.classList.toggle("on", i <= Math.max(0, reached)));
     setStation(Math.max(0, f === 1 ? seg : seg - 1));
     V.bar.style.width = (clamp(p) * 100).toFixed(1) + "%";
+  };
+
+  // Reduced motion: no camera and no flight. The whole map sits still (see main.css) with
+  // the route drawn end to end and the ship parked at The Core.
+  const renderVoyageStatic = () => {
+    const end = V.route.getPointAtLength(V.total);
+    const before = V.route.getPointAtLength(V.total - 4);
+    const ang = (Math.atan2(end.y - before.y, end.x - before.x) * 180) / Math.PI;
+    V.ship.setAttribute("transform", `translate(${end.x.toFixed(1)} ${end.y.toFixed(1)}) rotate(${ang.toFixed(1)}) scale(${V.shipScale})`);
+    V.route.style.strokeDashoffset = "0";
+    V.labels.forEach((li) => li.classList.add("on"));
   };
 
   /* ---------- One scroll loop for everything scrubbed ---------- */
@@ -352,7 +370,7 @@
     header.classList.toggle("scrolled", y > 20);
     dock.classList.toggle("show", y > window.innerHeight * 0.7);
     renderHero();
-    if (voyage) renderVoyage(progress(voyage));
+    if (voyage && !reduced) renderVoyage(progress(voyage));
     renderGallery();
     renderParallax();
     renderFinal();
@@ -360,8 +378,9 @@
   const request = () => { if (!ticking) { ticking = true; requestAnimationFrame(frame); } };
 
   window.addEventListener("scroll", request, { passive: true });
-  window.addEventListener("resize", () => { layoutVoyage(); request(); }, { passive: true });
-  layoutVoyage();
+  window.addEventListener("resize", () => { if (!reduced) layoutVoyage(); request(); }, { passive: true });
+  if (voyage && reduced) renderVoyageStatic();
+  else layoutVoyage();
   frame();
 
   // Intro: the ship glides in, then hovers until you scroll.

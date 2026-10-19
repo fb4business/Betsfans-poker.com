@@ -1,0 +1,12 @@
+{
+  "name": "betsfans-poker-landing",
+  "private": true,
+  "type": "module",
+  "description": "BetsFans Poker landing page (English, Hebrew, French)",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node --test",
+    "serve": "python3 -m http.server 8765"
+  }
+}

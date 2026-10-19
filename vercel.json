@@ -1,0 +1,26 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/:path*", "has": [{ "type": "host", "value": "betsfans-poker.com" }], "destination": "https://www.betsfans-poker.com/:path*", "permanent": true },
+    { "source": "/play", "destination": "https://www.betsfans-poker.app/play", "permanent": false },
+    { "source": "/login", "destination": "https://www.betsfans-poker.app/login?redirect=%2Fplay", "permanent": false },
+    { "source": "/register", "destination": "https://www.betsfans-poker.app/register?redirect=%2Fplay", "permanent": false }
+  ],
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" }
+      ]
+    }
+  ]
+}

@@ -2,7 +2,7 @@
 //   src/page.html + src/i18n.mjs  →  index.html (en), he/index.html, fr/index.html, sitemap.xml
 // No dependencies. Run `npm run build` after editing the template or strings;
 // `npm test` fails if the committed pages are out of date.
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, cpSync, rmSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { LANGS, strings } from "./src/i18n.mjs";
@@ -208,6 +208,40 @@ export function sitemap() {
   ].join("\n");
 }
 
+/**
+ * What the site serves. The build copies exactly these into public/ — the folder
+ * Vercel publishes (vercel.json `outputDirectory`) — so the template, strings,
+ * tests and build script never go live.
+ */
+export const DEPLOY = [
+  ...Object.values(OUTPUTS),
+  "assets",
+  "sitemap.xml",
+  "robots.txt",
+  "site.webmanifest",
+  "favicon.ico",
+  "favicon.svg",
+  "favicon-48.png",
+  "apple-touch-icon.png",
+  "icon-192.png",
+  "icon-512.png",
+  "og-image.jpg",
+  "og-image-he.jpg",
+  "og-image-fr.jpg",
+];
+export const OUT_DIR = "public";
+
+function copyToPublic() {
+  const out = join(ROOT, OUT_DIR);
+  rmSync(out, { recursive: true, force: true });
+  for (const entry of DEPLOY) {
+    const src = join(ROOT, entry);
+    if (!existsSync(src)) throw new Error(`Missing deploy file: ${entry}`);
+    cpSync(src, join(out, entry), { recursive: true });
+  }
+  console.log(`copied ${DEPLOY.length} entries to ${OUT_DIR}/`);
+}
+
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   for (const code of CODES) {
     const out = join(ROOT, OUTPUTS[code]);
@@ -217,4 +251,5 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   }
   writeFileSync(join(ROOT, "sitemap.xml"), sitemap());
   console.log("wrote sitemap.xml");
+  copyToPublic();
 }

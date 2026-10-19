@@ -5,12 +5,38 @@
   "use strict";
 
   const APP = "https://www.betsfans-poker.app";
-  const SITE = "https://www.betsfans-poker.com/";
+  // This page's language and its runtime strings (written by build.mjs).
+  const I18N = JSON.parse(document.getElementById("i18n").textContent);
+  const LANG = I18N.lang;
+  const RTL = document.documentElement.dir === "rtl";
+  const NUM_LOCALE = LANG === "fr" ? "fr-FR" : "en-US";
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
   const smooth = (t) => t * t * (3 - 2 * t);
+
+  /* ---------- Language: remember the reader's choice; first visit follows the browser ---------- */
+  const PREF = "bfLang";
+  const store = {
+    get: () => { try { return localStorage.getItem(PREF); } catch { return null; } },
+    set: (v) => { try { localStorage.setItem(PREF, v); } catch { /* per-viewer convenience only */ } },
+  };
+  $$("[data-lang]").forEach((a) => a.addEventListener("click", () => store.set(a.dataset.lang)));
+  if (LANG === "en" && !store.get()) {
+    const wanted = (navigator.languages || [navigator.language || ""]).map((l) => l.slice(0, 2).toLowerCase()).find((l) => l === "he" || l === "fr" || l === "en");
+    if (wanted && wanted !== "en") {
+      store.set(wanted);
+      location.replace(`/${wanted}${location.search}${location.hash}`);
+      return;
+    }
+  }
+  // Close the language menu on an outside tap or Escape.
+  const langMenu = $("[data-lang-menu]");
+  if (langMenu) {
+    document.addEventListener("click", (e) => { if (langMenu.open && !langMenu.contains(e.target)) langMenu.open = false; });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") langMenu.open = false; });
+  }
 
   /* ---------- Outbound links: keep the redirect to /play, add campaign tags ---------- */
   const PATHS = { play: "/play", frontier: "/frontier", login: "/login", register: "/register" };
@@ -18,6 +44,7 @@
     const kind = a.dataset.app;
     const url = new URL(APP + PATHS[kind]);
     if (kind === "login" || kind === "register") url.searchParams.set("redirect", "/play");
+    url.searchParams.set("lang", LANG);
     url.searchParams.set("utm_source", "betsfans-poker.com");
     url.searchParams.set("utm_medium", "landing");
     url.searchParams.set("utm_campaign", "final-frontier");
@@ -26,10 +53,8 @@
   });
 
   /* ---------- WhatsApp invite + copy link ---------- */
-  const inviteUrl = (src) => `${SITE}?utm_source=${src}&utm_medium=share&utm_campaign=invite`;
-  const inviteText = (src) =>
-    "🃏 Join me at BetsFans Poker — free social Texas Hold'em & Omaha among the stars. " +
-    "10,000 free chips to start (virtual chips, no real money). Pull up a seat: " + inviteUrl(src);
+  const inviteUrl = (src) => `${I18N.invite}?utm_source=${src}&utm_medium=share&utm_campaign=invite`;
+  const inviteText = (src) => `${I18N.waText} ${inviteUrl(src)}`;
   $$("[data-wa]").forEach((a) => {
     a.href = "https://wa.me/?text=" + encodeURIComponent(inviteText("whatsapp"));
   });
@@ -47,15 +72,24 @@
       const url = inviteUrl("copy-link");
       try {
         await navigator.clipboard.writeText(url);
-        toast("Invite link copied");
+        toast(I18N.copied);
       } catch {
         if (navigator.share) navigator.share({ title: "BetsFans Poker", text: inviteText("share"), url }).catch(() => {});
-        else window.prompt("Copy this link:", url);
+        else window.prompt(I18N.copyPrompt, url);
       }
     }),
   );
 
   $$("[data-year]").forEach((el) => (el.textContent = String(new Date().getFullYear())));
+
+  /* ---------- Marquees: a second, hidden copy makes the loop seamless ---------- */
+  $$("[data-marquee]").forEach((track) => {
+    [...track.children].forEach((li) => {
+      const copy = li.cloneNode(true);
+      copy.setAttribute("aria-hidden", "true");
+      track.appendChild(copy);
+    });
+  });
 
   /* ---------- Reveal on scroll ---------- */
   const io = new IntersectionObserver(
@@ -74,7 +108,7 @@
       const t0 = performance.now();
       const tick = (now) => {
         const k = clamp((now - t0) / 1600);
-        e.target.textContent = Math.round(end * (1 - Math.pow(1 - k, 3))).toLocaleString("en-US");
+        e.target.textContent = Math.round(end * (1 - Math.pow(1 - k, 3))).toLocaleString(NUM_LOCALE);
         if (k < 1) requestAnimationFrame(tick);
       };
       requestAnimationFrame(tick);
@@ -138,13 +172,8 @@
   }
 
   /* ---------- Voyage: route through the five stations ---------- */
-  const STATIONS = [
-    { x: 15, y: 74, name: "Rustbelt Station", saloon: "The Rusty Circuit Saloon", kicker: "Sector 01 · Starts unlocked", desc: "Warm lights, worn copper, and a seat for every newcomer. Start your journey at the frontier's smallest buy-ins." },
-    { x: 35, y: 49, name: "Neon Orbit", saloon: "The Starlight Saloon", kicker: "Sector 02 · 100 XP", desc: "A neon trading hub with new tables and bigger buy-ins waiting beyond the airlock." },
-    { x: 57, y: 39, name: "Asteroid Frontier", saloon: "The Outlaw Outpost", kicker: "Sector 03 · 300 XP", desc: "A rugged outpost in the asteroid belt. Bring your chips and your nerve." },
-    { x: 75, y: 23, name: "Deep Space", saloon: "The Violet Void", kicker: "Sector 04 · 700 XP", desc: "Beyond the familiar stars, the next rung of the buy-in ladder awaits." },
-    { x: 91, y: 15, name: "The Core", saloon: "The Crown of Stars", kicker: "Sector 05 · 1,400 XP", desc: "The galaxy's grand arena. Earn your passage to the highest buy-ins." },
-  ];
+  const COORDS = [[15, 74], [35, 49], [57, 39], [75, 23], [91, 15]];
+  const STATIONS = I18N.stations.map((st, i) => ({ ...st, x: COORDS[i][0], y: COORDS[i][1] }));
   const MAP_W = 1672, MAP_H = 941;
   const voyage = $("[data-scrub=voyage]");
   const V = {};
@@ -279,9 +308,12 @@
     const x2 = bez(t + dt, -0.2, 0.3, 0.62, 1.25) * vw, y2 = bez(t + dt, 0.92, 0.98, 0.22, -0.15) * vh;
     const ang = (Math.atan2(y2 - y, x2 - x) * 180) / Math.PI;
     const bob = Math.sin(performance.now() / 700) * 6 * (1 - p);
-    heroShip.style.setProperty("--sx", `${x.toFixed(1)}px`);
+    // Right-to-left pages fly the mirror image: right to left, nose first.
+    const sx = RTL ? vw - x - heroShip.clientWidth : x;
+    heroShip.style.setProperty("--sx", `${sx.toFixed(1)}px`);
     heroShip.style.setProperty("--sy", `${(y + bob).toFixed(1)}px`);
-    heroShip.style.setProperty("--sr", `${ang.toFixed(1)}deg`);
+    heroShip.style.setProperty("--sr", `${(RTL ? -ang : ang).toFixed(1)}deg`);
+    heroShip.style.setProperty("--sf", RTL ? "-1" : "1");
     heroShip.style.setProperty("--ss", (0.75 + p * 0.6).toFixed(3));
     heroShip.style.zIndex = p > 0.3 ? 3 : 1;
   };

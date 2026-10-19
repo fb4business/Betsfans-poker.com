@@ -340,8 +340,11 @@
         </div>
       </div>
 
-      <div class="bots-marquee" aria-label="{{botsAria}}">
-        <ul class="bots-track" data-marquee>
+      <div class="bots-carousel" data-bots>
+        <button class="bots-nav bots-prev" type="button" data-bots-prev aria-label="{{botsPrev}}"><svg class="ic" aria-hidden="true"><use href="#i-arrow" /></svg></button>
+        <button class="bots-nav bots-next" type="button" data-bots-next aria-label="{{botsNext}}"><svg class="ic" aria-hidden="true"><use href="#i-arrow" /></svg></button>
+      <div class="bots-marquee" aria-label="{{botsAria}}" tabindex="0">
+        <ul class="bots-track" data-bots-track>
           <li><img src="/assets/img/bots/shadow.webp" alt="" width="256" height="256" loading="lazy" /><b>Shadow</b><span>{{b1}}</span><i>BOT</i></li>
           <li><img src="/assets/img/bots/bluffy.webp" alt="" width="256" height="256" loading="lazy" /><b>Bluffy</b><span>{{b2}}</span><i>BOT</i></li>
           <li><img src="/assets/img/bots/kingbot.webp" alt="" width="256" height="256" loading="lazy" /><b>King Bot</b><span>{{b3}}</span><i>BOT</i></li>
@@ -355,6 +358,7 @@
           <li><img src="/assets/img/bots/specter.webp" alt="" width="256" height="256" loading="lazy" /><b>Specter</b><span>{{b11}}</span><i>BOT</i></li>
           <li><img src="/assets/img/bots/lucky.webp" alt="" width="256" height="256" loading="lazy" /><b>Lucky</b><span>{{b12}}</span><i>BOT</i></li>
         </ul>
+      </div>
       </div>
     </section>
 

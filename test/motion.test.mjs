@@ -33,15 +33,29 @@ test("by default the gallery scrolls sideways and the voyage map is laid out in 
   assert.match(body(".voyage-stage"), /aspect-ratio/);
 });
 
-test("carousels animate only once main.js has doubled them (.looping)", () => {
+test("the highlights strip animates only once main.js has doubled it (.looping)", () => {
   const animated = selectorsWith(/animation:\s*marquee/);
-  assert.ok(animated.length === 2, `expected 2 looping rows, got ${animated}`);
-  for (const sel of animated) assert.match(sel, /\.looping$/, `${sel} animates before it is doubled`);
+  assert.deepEqual(animated, [".marquee-track.looping"]);
   // A trailing margin instead of `gap`, so the doubled row splits into two equal halves.
-  for (const sel of animated) assert.match(rules.find(([s]) => s === sel)[1], /gap:\s*0/);
+  assert.match(rules.find(([s]) => s === ".marquee-track.looping")[1], /gap:\s*0/);
   assert.match(js, /if \(!reduced\) \{\s*\$\$\("\[data-marquee\]"\)/);
   assert.match(js, /cloneNode\(true\)/);
-  assert.match(js, /classList\.add\("looping"\)/);
+});
+
+test("the bot carousel is a real scroller the reader controls in both directions", () => {
+  const body = (sel) => rules.find(([s]) => s === sel)?.[1] ?? "";
+  assert.match(body(".bots-marquee"), /overflow-x:\s*auto/);
+  assert.doesNotMatch(body(".bots-track.looping"), /animation/, "no CSS animation the reader can't steer");
+  assert.match(body(".bots-track.looping"), /gap:\s*0/);
+  assert.match(page, /data-bots-prev/);
+  assert.match(page, /data-bots-next/);
+  assert.match(js, /addEventListener\("click", \(\) => go\(-1\)\)/);
+  assert.match(js, /addEventListener\("click", \(\) => go\(1\)\)/);
+  // It drifts on its own only with motion allowed, and pauses while the reader holds it.
+  assert.match(js, /if \(!reduced\) doubleRow\(track\)/);
+  assert.match(js, /if \(visible && !holding && now > resumeAt && loops\(\)\)/);
+  // Right-to-left pages keep the scroller's coordinates left-to-right, like the row.
+  assert.match(css, /\[dir="rtl"\] \.bots-marquee/);
 });
 
 test("reduced motion gets the static voyage, never the scroll-driven camera", () => {

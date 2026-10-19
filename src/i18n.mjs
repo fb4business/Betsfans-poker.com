@@ -279,6 +279,8 @@ export const strings = {
     "22 personnages avec leur propre personnalité. Entraînez-vous contre eux, repérez leurs tells et raflez leurs jetons.",
   ],
   botsAria: ["Meet the bots", "הכירו את הבוטים", "Rencontrez les bots"],
+  botsPrev: ["Previous bots", "הבוטים הקודמים", "Bots précédents"],
+  botsNext: ["Next bots", "הבוטים הבאים", "Bots suivants"],
   b1: ["The Calm Predator", "הטורף השקט", "Le prédateur calme"],
   b2: ["The Master Bluffer", "אמן הבלוף", "Le maître du bluff"],
   b3: ["The High Roller", "ההיי־רולר", "Le flambeur"],

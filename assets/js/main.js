@@ -82,19 +82,89 @@
 
   $$("[data-year]").forEach((el) => (el.textContent = String(new Date().getFullYear())));
 
-  /* ---------- Marquees: a second, hidden copy makes the loop seamless ---------- */
+  /* ---------- Highlights strip: a second, hidden copy makes the loop seamless ---------- */
   // The loop animates to -50%, so it only starts once the row is doubled; without it
-  // (no JavaScript, or reduced motion) each row is a plain horizontal scroller.
+  // (no JavaScript, or reduced motion) the row is a plain horizontal scroller.
+  const doubleRow = (track) => {
+    [...track.children].forEach((li) => {
+      const copy = li.cloneNode(true);
+      copy.setAttribute("aria-hidden", "true");
+      track.appendChild(copy);
+    });
+    track.classList.add("looping");
+  };
   if (!reduced) {
     $$("[data-marquee]").forEach((track) => {
-      [...track.children].forEach((li) => {
-        const copy = li.cloneNode(true);
-        copy.setAttribute("aria-hidden", "true");
-        track.appendChild(copy);
-      });
-      track.classList.add("looping");
+      doubleRow(track);
       track.parentElement.classList.add("looping");
     });
+  }
+
+  /* ---------- Bot carousel: swipe or use the arrows; drifts on its own when left alone ---------- */
+  const carousel = $("[data-bots]");
+  if (carousel) {
+    const scroller = $(".bots-marquee", carousel);
+    const track = $("[data-bots-track]", carousel);
+    const GAP = 18, SPEED = 26; // px between cards, px per second of drift
+    if (!reduced) doubleRow(track);
+    const half = () => track.scrollWidth / 2;
+    const maxScroll = () => scroller.scrollWidth - scroller.clientWidth;
+    const cardStep = () => (track.firstElementChild?.getBoundingClientRect().width || 170) + GAP;
+    // Wrapping needs one copy of the row to be wider than the screen plus a step.
+    const loops = () => !reduced && half() >= scroller.clientWidth + cardStep() * 3;
+    let pos = scroller.scrollLeft, resumeAt = 0, holding = false, visible = false, last = performance.now();
+
+    // Only at the very ends of the doubled row, jump by exactly one copy — it looks identical,
+    // and anywhere in between a swipe or a smooth arrow scroll runs undisturbed.
+    const wrap = () => {
+      if (!loops()) return;
+      if (scroller.scrollLeft < 1) scroller.scrollLeft += half();
+      else if (scroller.scrollLeft > maxScroll() - 1) scroller.scrollLeft -= half();
+      pos = scroller.scrollLeft;
+    };
+    scroller.addEventListener("scroll", () => {
+      // Anything other than our own drift is the reader scrolling: follow it and pause.
+      if (Math.abs(scroller.scrollLeft - pos) > 3) { pos = scroller.scrollLeft; resumeAt = performance.now() + 2500; }
+      wrap();
+    }, { passive: true });
+
+    const hold = () => { holding = true; };
+    const release = () => { holding = false; resumeAt = performance.now() + 2500; };
+    ["pointerdown", "touchstart", "mouseenter", "focusin"].forEach((ev) => scroller.addEventListener(ev, hold, { passive: true }));
+    ["pointerup", "pointercancel", "touchend", "mouseleave", "focusout"].forEach((ev) => scroller.addEventListener(ev, release, { passive: true }));
+    scroller.addEventListener("wheel", () => { resumeAt = performance.now() + 2500; }, { passive: true });
+
+    const go = (dir) => {
+      resumeAt = performance.now() + 4000;
+      const step = cardStep() * (scroller.clientWidth > 700 ? 3 : 1);
+      if (loops()) {
+        // Pre-wrap so the smooth scroll never has to cross the end of the row.
+        if (dir < 0 && scroller.scrollLeft - step < 1) scroller.scrollLeft += half();
+        if (dir > 0 && scroller.scrollLeft + step > maxScroll() - 1) scroller.scrollLeft -= half();
+        pos = scroller.scrollLeft;
+      }
+      scroller.scrollBy({ left: dir * step, behavior: reduced ? "auto" : "smooth" });
+    };
+    $("[data-bots-prev]", carousel).addEventListener("click", () => go(-1));
+    $("[data-bots-next]", carousel).addEventListener("click", () => go(1));
+    scroller.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") { e.preventDefault(); go(-1); }
+      if (e.key === "ArrowRight") { e.preventDefault(); go(1); }
+    });
+
+    if (!reduced) {
+      new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(scroller);
+      const drift = (now) => {
+        const dt = Math.min(now - last, 64); last = now;
+        if (visible && !holding && now > resumeAt && loops()) {
+          pos += (SPEED * dt) / 1000;
+          if (pos > maxScroll() - 1) pos -= half();
+          scroller.scrollLeft = pos;
+        }
+        requestAnimationFrame(drift);
+      };
+      requestAnimationFrame(drift);
+    }
   }
 
   /* ---------- Reveal on scroll ---------- */

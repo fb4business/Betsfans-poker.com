@@ -43,7 +43,10 @@ npm run serve    # http://localhost:8765  (/he/ and /fr/ for the other languages
 - Checked in all three languages at 375×667, 390×844, 844×390 (landscape) and 1280×800: no horizontal scroll, and tap targets are at least 44px. Hebrew uses Heebo for its letters and mirrors the layout; the spaceship flies right to left.
 
 ## Deploying
-`vercel.json` sends the bare domain to `www`, maps `/play`, `/login` and `/register` to the game, and sets cache and security headers. Point `www.betsfans-poker.com` at the Vercel project.
+- **Vercel:** `vercel.json` sets `buildCommand: npm run build` and `outputDirectory: public`. The build generates the pages, then copies only the files the site serves (`DEPLOY` in `build.mjs`) into `public/`. Everything in the repo root used to be published, including `src/`, `test/` and `build.mjs`; now those stay private. `public/` is git-ignored.
+- **Project settings:** leave Framework Preset as "Other". `vercel.json` overrides the Build and Output settings.
+- **Domain:** point `www.betsfans-poker.com` at the project. `vercel.json` also sends the bare domain to `www`, maps `/play`, `/login` and `/register` to the game, and sets cache and security headers.
+- **Safety check:** `test/deploy.test.mjs` fails if a page links to a file that isn't copied to `public/`.
 
 ## Keep it a social game
 Chips are virtual, have no cash value and can't be withdrawn. The page must never use real-money, cash-out or prize language. Bots are always shown as BOT.

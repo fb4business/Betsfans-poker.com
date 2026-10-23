@@ -11,8 +11,9 @@ import { LANGS, strings } from "./src/i18n.mjs";
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const SITE = "https://www.betsfans-poker.com";
 const APP = "https://www.betsfans-poker.app";
+export const PLAY_STORE = "https://play.google.com/store/apps/details?id=app.betsfanspoker.poker";
 const CODES = Object.keys(LANGS);
-const LASTMOD = "2026-10-19";
+const LASTMOD = "2026-10-23";
 
 export const OUTPUTS = { en: "index.html", he: "he/index.html", fr: "fr/index.html" };
 
@@ -25,6 +26,17 @@ export function appUrl(path, code) {
   const url = new URL(APP + path);
   if (path === "/login" || path === "/register") url.searchParams.set("redirect", "/play");
   url.searchParams.set("lang", code);
+  return url.toString();
+}
+
+/**
+ * The Google Play listing, in the reader's language. Play passes `referrer` to the
+ * installed app's Install Referrer, so a store install is attributed like a game link.
+ */
+export function playStoreUrl(code, slot) {
+  const url = new URL(PLAY_STORE);
+  url.searchParams.set("hl", code === "he" ? "iw" : code);
+  url.searchParams.set("referrer", `utm_source=betsfans-poker.com&utm_medium=landing&utm_campaign=final-frontier&utm_content=play-store-${slot}`);
   return url.toString();
 }
 
@@ -54,7 +66,7 @@ function jsonLd(code) {
     "@context": "https://schema.org",
     "@graph": [
       { "@type": "WebSite", "@id": `${SITE}/#website`, url: `${SITE}/`, name: "BetsFans Poker", inLanguage: CODES, publisher: { "@id": `${SITE}/#organization` } },
-      { "@type": "Organization", "@id": `${SITE}/#organization`, name: "BetsFans Poker", legalName: "BLOSSOM365 LP", url: `${SITE}/`, logo: `${SITE}/icon-512.png`, email: "support@betsfans-poker.app", sameAs: [`${APP}/`] },
+      { "@type": "Organization", "@id": `${SITE}/#organization`, name: "BetsFans Poker", legalName: "BLOSSOM365 LP", url: `${SITE}/`, logo: `${SITE}/icon-512.png`, email: "support@betsfans-poker.app", sameAs: [`${APP}/`, PLAY_STORE] },
       { "@type": "WebPage", "@id": `${url}#webpage`, url, name: T("metaTitle"), description: T("metaDescription"), inLanguage: code, isPartOf: { "@id": `${SITE}/#website` }, about: { "@id": `${SITE}/#game` }, primaryImageOfPage: `${SITE}/${ogImage(code)}` },
       {
         "@type": ["VideoGame", "WebApplication"],
@@ -63,10 +75,11 @@ function jsonLd(code) {
         url: `${APP}/`,
         description: T("ogDescription"),
         genre: ["Poker", "Card game"],
-        gamePlatform: ["Web browser", "Mobile web"],
+        gamePlatform: ["Web browser", "Mobile web", "Android"],
         playMode: ["MultiPlayer", "SinglePlayer"],
         applicationCategory: "GameApplication",
-        operatingSystem: "Any",
+        operatingSystem: "Any, Android",
+        installUrl: PLAY_STORE,
         inLanguage: CODES,
         isAccessibleForFree: true,
         typicalAgeRange: "18-",
@@ -186,6 +199,7 @@ export function render(code) {
 
   html = html.replace(/"(\/assets\/(?:css|js)\/[\w.-]+)"/g, (_, path) => `"${path}?v=${assetVersion(path)}"`);
   html = html.replace(/\{\{app:([^}]+)\}\}/g, (_, path) => esc(appUrl(path, code)));
+  html = html.replace(/\{\{playStore:(\w+)\}\}/g, (_, slot) => esc(playStoreUrl(code, slot)));
   html = html.replace(/\{\{(\w+)\}\}/g, (_, key) => {
     if (key in special) return special[key];
     const value = t(key, code);

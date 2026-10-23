@@ -61,7 +61,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" />
   <link rel="preload" as="image" href="/assets/img/galaxy.webp" imagesrcset="/assets/img/galaxy-960.webp 960w, /assets/img/galaxy.webp 1672w" imagesizes="100vw" fetchpriority="high" />
-  <link rel="stylesheet" href="/assets/css/main.css?v=2e138c233a" />
+  <link rel="stylesheet" href="/assets/css/main.css?v=eef7528aed" />
   <!-- "js": scripts run. "motion": they run and the reader allows motion — only then do the
        pinned, scroll-driven scenes switch on (main.css); otherwise every section is static. -->
   <script>(function (c) { c.add("js"); if (!matchMedia("(prefers-reduced-motion: reduce)").matches) c.add("motion"); })(document.documentElement.classList);</script>
@@ -94,7 +94,8 @@
         "logo": "https://www.betsfans-poker.com/icon-512.png",
         "email": "support@betsfans-poker.app",
         "sameAs": [
-          "https://www.betsfans-poker.app/"
+          "https://www.betsfans-poker.app/",
+          "https://play.google.com/store/apps/details?id=app.betsfanspoker.poker"
         ]
       },
       {
@@ -127,14 +128,16 @@
         ],
         "gamePlatform": [
           "Web browser",
-          "Mobile web"
+          "Mobile web",
+          "Android"
         ],
         "playMode": [
           "MultiPlayer",
           "SinglePlayer"
         ],
         "applicationCategory": "GameApplication",
-        "operatingSystem": "Any",
+        "operatingSystem": "Any, Android",
+        "installUrl": "https://play.google.com/store/apps/details?id=app.betsfanspoker.poker",
         "inLanguage": [
           "en",
           "he",
@@ -254,7 +257,7 @@
             "name": "Existe-t-il une application Android ou iPhone ?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Les applications BetsFans Poker pour Google Play et l'App Store d'Apple arrivent bientôt. Dès aujourd'hui, vous pouvez jouer instantanément dans n'importe quel navigateur, sur mobile ou ordinateur."
+              "text": "Oui — l'application Android est disponible sur Google Play, et l'application iPhone pour l'App Store d'Apple arrive bientôt. Vous pouvez aussi jouer instantanément dans n'importe quel navigateur, sur mobile ou ordinateur."
             }
           }
         ]
@@ -400,8 +403,8 @@
             </div>
             <p class="micro"><strong class="gold">10 000 jetons offerts</strong> pour commencer · Sans téléchargement · Jetons virtuels uniquement · 18+</p>
             <div class="stores" aria-label="Applications mobiles">
+              <a class="store" href="https://play.google.com/store/apps/details?id=app.betsfanspoker.poker&amp;hl=fr&amp;referrer=utm_source%3Dbetsfans-poker.com%26utm_medium%3Dlanding%26utm_campaign%3Dfinal-frontier%26utm_content%3Dplay-store-hero" target="_blank" rel="noopener" data-store="google" data-slot="hero" aria-label="Télécharger BetsFans Poker sur Google Play"><svg class="ic" aria-hidden="true"><use href="#i-play" /></svg><span><small>Disponible sur</small>Google Play</span></a>
               <span class="store" aria-disabled="true" data-soon="Bientôt"><svg class="ic" aria-hidden="true"><use href="#i-apple" /></svg><span><small>Bientôt sur l'</small>App Store</span></span>
-              <span class="store" aria-disabled="true" data-soon="Bientôt"><svg class="ic" aria-hidden="true"><use href="#i-play" /></svg><span><small>Bientôt sur</small>Google Play</span></span>
             </div>
           </div>
           <div class="hero-art" aria-hidden="true">
@@ -714,10 +717,10 @@
         </figure>
         <div class="reveal">
           <p class="eyebrow"><span class="dot"></span>Sur votre téléphone</p>
-          <h2 id="apps-title">Dans votre poche <em>— bientôt dans les stores.</em></h2>
-          <p class="lead">Les applications BetsFans Poker pour Android et iPhone arrivent. En attendant, le jeu complet tourne dans votre navigateur mobile — ajoutez-le à votre écran d'accueil et jouez en un geste.</p>
+          <h2 id="apps-title">Dans votre poche <em>— maintenant sur Google Play.</em></h2>
+          <p class="lead">L'application BetsFans Poker pour Android est disponible sur Google Play, et celle pour iPhone arrive. Sur tout autre téléphone, le jeu complet tourne dans votre navigateur mobile — ajoutez-le à votre écran d'accueil et jouez en un geste.</p>
           <div class="stores">
-            <span class="store" aria-disabled="true" data-soon="Bientôt"><svg class="ic" aria-hidden="true"><use href="#i-play" /></svg><span><small>Bientôt sur</small>Google Play</span></span>
+            <a class="store" href="https://play.google.com/store/apps/details?id=app.betsfanspoker.poker&amp;hl=fr&amp;referrer=utm_source%3Dbetsfans-poker.com%26utm_medium%3Dlanding%26utm_campaign%3Dfinal-frontier%26utm_content%3Dplay-store-apps" target="_blank" rel="noopener" data-store="google" data-slot="apps" aria-label="Télécharger BetsFans Poker sur Google Play"><svg class="ic" aria-hidden="true"><use href="#i-play" /></svg><span><small>Disponible sur</small>Google Play</span></a>
             <span class="store" aria-disabled="true" data-soon="Bientôt"><svg class="ic" aria-hidden="true"><use href="#i-apple" /></svg><span><small>Bientôt sur l'</small>App Store</span></span>
           </div>
           <a class="btn btn-gold btn-lg" data-app="play" data-slot="apps" href="https://www.betsfans-poker.app/play?lang=fr">Jouer dans le navigateur<svg class="ic ic-end" aria-hidden="true"><use href="#i-arrow" /></svg></a>
@@ -739,7 +742,7 @@
           <details><summary>Que sont les tables privées et VIP ?</summary><p>Les tables privées VIP sont des parties sur invitation. Chaque table a son propre code — saisissez-le une fois et la table vous est ouverte. Seuls les invités peuvent s'asseoir ou regarder, et les bots maison ne rejoignent jamais.</p></details>
           <details><summary>Y a-t-il des bots aux tables ?</summary><p>Les tables publiques accueillent des bots IA maison pour qu'il y ait toujours une partie. Chaque bot a son caractère et est toujours clairement signalé BOT — les bots ne se font jamais passer pour des humains.</p></details>
           <details><summary>Qu'est-ce que The Final Frontier ?</summary><p>The Final Frontier est l'aventure spatiale de BetsFans Poker. Voyagez de la Station Rustbelt jusqu'au Noyau, jouez à de vraies tables dans des saloons spatiaux, gagnez de l'XP à chaque main et débloquez de nouvelles destinations.</p></details>
-          <details><summary>Existe-t-il une application Android ou iPhone ?</summary><p>Les applications BetsFans Poker pour Google Play et l'App Store d'Apple arrivent bientôt. Dès aujourd'hui, vous pouvez jouer instantanément dans n'importe quel navigateur, sur mobile ou ordinateur.</p></details>
+          <details><summary>Existe-t-il une application Android ou iPhone ?</summary><p>Oui — l'application Android est disponible sur Google Play, et l'application iPhone pour l'App Store d'Apple arrive bientôt. Vous pouvez aussi jouer instantanément dans n'importe quel navigateur, sur mobile ou ordinateur.</p></details>
         </div>
       </div>
     </section>
@@ -773,6 +776,7 @@
         <a data-app="frontier" data-slot="footer" href="https://www.betsfans-poker.app/frontier?lang=fr">The Final Frontier</a>
         <a data-app="register" data-slot="footer" href="https://www.betsfans-poker.app/register?redirect=%2Fplay&amp;lang=fr">Inscription</a>
         <a data-app="login" data-slot="footer" href="https://www.betsfans-poker.app/login?redirect=%2Fplay&amp;lang=fr">Connexion</a>
+        <a href="https://play.google.com/store/apps/details?id=app.betsfanspoker.poker&amp;hl=fr&amp;referrer=utm_source%3Dbetsfans-poker.com%26utm_medium%3Dlanding%26utm_campaign%3Dfinal-frontier%26utm_content%3Dplay-store-footer" target="_blank" rel="noopener" data-store="google" data-slot="footer">Application Android (Google Play)</a>
       </nav>
       <nav aria-label="Explorer">
         <h3>Explorer</h3>

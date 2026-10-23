@@ -75,7 +75,8 @@ export const strings = {
   ],
   storesAria: ["Mobile apps", "אפליקציות לנייד", "Applications mobiles"],
   soonOnApple: ["Coming soon on the", "בקרוב ב־", "Bientôt sur l'"],
-  soonOnGoogle: ["Coming soon on", "בקרוב ב־", "Bientôt sur"],
+  getOnGoogle: ["Get it on", "זמין ב־", "Disponible sur"],
+  getOnGoogleAria: ["Get BetsFans Poker on Google Play", "הורידו את BetsFans Poker מ־Google Play", "Télécharger BetsFans Poker sur Google Play"],
   soonBadge: ["Soon", "בקרוב", "Bientôt"],
   scrollCue: ["Scroll to launch", "גללו להמראה", "Faites défiler pour décoller"],
 
@@ -326,11 +327,11 @@ export const strings = {
 
   // ---------- Apps ----------
   appsEyebrow: ["On your phone", "בטלפון שלכם", "Sur votre téléphone"],
-  appsTitle: ["In your pocket <em>— soon in the stores.</em>", "בכיס שלכם <em>— בקרוב בחנויות.</em>", "Dans votre poche <em>— bientôt dans les stores.</em>"],
+  appsTitle: ["In your pocket <em>— now on Google Play.</em>", "בכיס שלכם <em>— עכשיו ב־Google Play.</em>", "Dans votre poche <em>— maintenant sur Google Play.</em>"],
   appsLead: [
-    "BetsFans Poker apps for Android and iPhone are on their way. Until then, the full game runs in your mobile browser — add it to your home screen and play in one tap.",
-    "אפליקציות BetsFans Poker לאנדרואיד ולאייפון בדרך. עד אז המשחק המלא רץ בדפדפן בנייד — הוסיפו אותו למסך הבית ושחקו בהקשה אחת.",
-    "Les applications BetsFans Poker pour Android et iPhone arrivent. En attendant, le jeu complet tourne dans votre navigateur mobile — ajoutez-le à votre écran d'accueil et jouez en un geste.",
+    "The BetsFans Poker app for Android is out now on Google Play, and the iPhone app is on its way. On any other phone, the full game runs in your mobile browser — add it to your home screen and play in one tap.",
+    "אפליקציית BetsFans Poker לאנדרואיד זמינה עכשיו ב־Google Play, ואפליקציית האייפון בדרך. בכל טלפון אחר המשחק המלא רץ בדפדפן בנייד — הוסיפו אותו למסך הבית ושחקו בהקשה אחת.",
+    "L'application BetsFans Poker pour Android est disponible sur Google Play, et celle pour iPhone arrive. Sur tout autre téléphone, le jeu complet tourne dans votre navigateur mobile — ajoutez-le à votre écran d'accueil et jouez en un geste.",
   ],
   appsBtn: ["Play in the browser now", "שחקו עכשיו בדפדפן", "Jouer dans le navigateur"],
 
@@ -375,9 +376,9 @@ export const strings = {
   ],
   faq7q: ["Is there an Android or iPhone app?", "יש אפליקציה לאנדרואיד או לאייפון?", "Existe-t-il une application Android ou iPhone ?"],
   faq7a: [
-    "BetsFans Poker apps for Google Play and the Apple App Store are coming soon. Today you can play instantly in any mobile or desktop browser.",
-    "אפליקציות BetsFans Poker ל־Google Play ול־App Store של אפל יגיעו בקרוב. כבר היום אפשר לשחק מיד בכל דפדפן בנייד או במחשב.",
-    "Les applications BetsFans Poker pour Google Play et l'App Store d'Apple arrivent bientôt. Dès aujourd'hui, vous pouvez jouer instantanément dans n'importe quel navigateur, sur mobile ou ordinateur.",
+    "Yes — the Android app is on Google Play now, and the iPhone app for the Apple App Store is coming soon. You can also play instantly in any mobile or desktop browser.",
+    "כן — אפליקציית האנדרואיד זמינה עכשיו ב־Google Play, ואפליקציית האייפון ל־App Store של אפל תגיע בקרוב. אפשר גם לשחק מיד בכל דפדפן בנייד או במחשב.",
+    "Oui — l'application Android est disponible sur Google Play, et l'application iPhone pour l'App Store d'Apple arrive bientôt. Vous pouvez aussi jouer instantanément dans n'importe quel navigateur, sur mobile ou ordinateur.",
   ],
 
   // ---------- Final CTA ----------
@@ -399,6 +400,7 @@ export const strings = {
   ],
   footPlay: ["Play", "משחק", "Jouer"],
   footLobby: ["Free poker lobby", "לובי פוקר חינם", "Lobby de poker gratuit"],
+  footAndroid: ["Android app (Google Play)", "אפליקציית אנדרואיד (Google Play)", "Application Android (Google Play)"],
   footExplore: ["Explore", "גלו", "Explorer"],
   fe1: ["How to join a table", "איך מצטרפים לשולחן", "Comment rejoindre une table"],
   fe2: ["Private &amp; VIP tables", "שולחנות פרטיים ו־VIP", "Tables privées &amp; VIP"],

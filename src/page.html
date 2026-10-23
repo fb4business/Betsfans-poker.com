@@ -127,8 +127,8 @@
             </div>
             <p class="micro">{{heroMicro}}</p>
             <div class="stores" aria-label="{{storesAria}}">
+              <a class="store" href="{{playStore:hero}}" target="_blank" rel="noopener" data-store="google" data-slot="hero" aria-label="{{getOnGoogleAria}}"><svg class="ic" aria-hidden="true"><use href="#i-play" /></svg><span><small>{{getOnGoogle}}</small>Google Play</span></a>
               <span class="store" aria-disabled="true" data-soon="{{soonBadge}}"><svg class="ic" aria-hidden="true"><use href="#i-apple" /></svg><span><small>{{soonOnApple}}</small>App Store</span></span>
-              <span class="store" aria-disabled="true" data-soon="{{soonBadge}}"><svg class="ic" aria-hidden="true"><use href="#i-play" /></svg><span><small>{{soonOnGoogle}}</small>Google Play</span></span>
             </div>
           </div>
           <div class="hero-art" aria-hidden="true">
@@ -415,7 +415,7 @@
           <h2 id="apps-title">{{appsTitle}}</h2>
           <p class="lead">{{appsLead}}</p>
           <div class="stores">
-            <span class="store" aria-disabled="true" data-soon="{{soonBadge}}"><svg class="ic" aria-hidden="true"><use href="#i-play" /></svg><span><small>{{soonOnGoogle}}</small>Google Play</span></span>
+            <a class="store" href="{{playStore:apps}}" target="_blank" rel="noopener" data-store="google" data-slot="apps" aria-label="{{getOnGoogleAria}}"><svg class="ic" aria-hidden="true"><use href="#i-play" /></svg><span><small>{{getOnGoogle}}</small>Google Play</span></a>
             <span class="store" aria-disabled="true" data-soon="{{soonBadge}}"><svg class="ic" aria-hidden="true"><use href="#i-apple" /></svg><span><small>{{soonOnApple}}</small>App Store</span></span>
           </div>
           <a class="btn btn-gold btn-lg" data-app="play" data-slot="apps" href="{{app:/play}}">{{appsBtn}}<svg class="ic ic-end" aria-hidden="true"><use href="#i-arrow" /></svg></a>
@@ -471,6 +471,7 @@
         <a data-app="frontier" data-slot="footer" href="{{app:/frontier}}">{{frontierName}}</a>
         <a data-app="register" data-slot="footer" href="{{app:/register}}">{{register}}</a>
         <a data-app="login" data-slot="footer" href="{{app:/login}}">{{login}}</a>
+        <a href="{{playStore:footer}}" target="_blank" rel="noopener" data-store="google" data-slot="footer">{{footAndroid}}</a>
       </nav>
       <nav aria-label="{{footExplore}}">
         <h3>{{footExplore}}</h3>

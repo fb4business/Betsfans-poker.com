@@ -75,6 +75,18 @@ for (const code of CODES) {
     }
   });
 
+  test(`${code}: Google Play badges link to the live listing in this language`, () => {
+    const html = render(code);
+    const hrefs = [...html.matchAll(/href="(https:\/\/play\.google\.com\/[^"]+)"/g)].map((m) => new URL(m[1].replace(/&amp;/g, "&")));
+    assert.equal(hrefs.length, 3);
+    for (const u of hrefs) {
+      assert.equal(u.searchParams.get("id"), "app.betsfanspoker.poker");
+      assert.equal(u.searchParams.get("hl"), code === "he" ? "iw" : code);
+      assert.match(u.searchParams.get("referrer"), /^utm_source=betsfans-poker\.com&.*utm_content=play-store-(hero|apps|footer)$/);
+    }
+    assert.doesNotMatch(html, /data-soon="[^"]*"[^>]*><svg[^>]*><use href="#i-play"/);
+  });
+
   test(`${code}: WhatsApp invites point back to this language's page`, () => {
     const html = render(code);
     const wa = [...html.matchAll(/href="(https:\/\/wa\.me\/\?text=[^"]+)"/g)].map((m) => decodeURIComponent(new URL(m[1].replace(/&amp;/g, "&")).searchParams.get("text")));

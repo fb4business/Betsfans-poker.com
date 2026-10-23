@@ -30,7 +30,7 @@ npm run serve    # http://localhost:8765  (/he/ and /fr/ for the other languages
 - **Hero**: a parallax galaxy, a starfield that speeds up as you scroll, the bot crew, and a spaceship that flies across the screen as you scroll.
 - **The Final Frontier**: a pinned galaxy map. Scrolling flies the ship from Rustbelt Station to The Core while the camera follows it.
 - **How to join**: four steps, with a pinned screenshot that changes as each step scrolls past (on phones each step shows its own screenshot).
-- **Live tables** (horizontal scroll), **Private & VIP tables**, **Friends & AI bots** (every bot shown with its BOT badge), **Free chips**, **WhatsApp invite**, **Apps (coming soon)**, **FAQ**, and a final call to action.
+- **Live tables** (horizontal scroll), **Private & VIP tables**, **Friends & AI bots** (every bot shown with its BOT badge), **Free chips**, **WhatsApp invite**, **Apps** (Google Play badge links to the live Android app; App Store still "soon"), **FAQ**, and a final call to action.
 - **Login / Register** open `betsfans-poker.app/login|register?redirect=/play`, so the player lands in the lobby after signing in. **Play now** opens `/play`. Every outbound link carries `utm_*` tags (`utm_content` = button + position).
 
 ## SEO
